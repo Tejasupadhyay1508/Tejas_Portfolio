@@ -1,0 +1,149 @@
+Phase 1: Setup & Data Preparation
+First, we need to organize the data from your resume so the AI can inject it into the code.
+
+Step 1: Create the Next.js App Run this in your terminal:
+
+Bash
+
+npx create-next-app@latest portfolio --typescript --tailwind --eslint
+cd portfolio
+npm install framer-motion lucide-react clsx tailwind-merge
+Step 2: The Master Prompt Use the following prompt to set up the data structure. I have extracted the specific details from your uploaded resume.
+
+👉 Copy/Paste Prompt 1:
+
+"I am building a modern, dark-themed developer portfolio using Next.js 14, Tailwind CSS, and Framer Motion.
+
+First, create a file at app/data/portfolioData.ts to store my information. Please populate it with this exact data:
+
+Personal Info:
+
+Name: Tejas Upadhyay
+
+Role: Full Stack Developer & Aspiring Software Engineer
+
+Tagline: Building scalable web applications with Next.js and Node.js.
+
+Resume Link: '/resume.pdf'
+
+Socials: LinkedIn (use placeholder), GitHub (use placeholder), Email: tejasupadhyay48@gmail.com
+
+Skills (categorize these):
+
+Frontend: React.js, Next.js, HTML5, CSS3, ShadCN UI, Tailwind
+
+Backend: Node.js, Express.js, RESTful APIs, JWT
+
+Database: MongoDB, PostgreSQL, MySQL
+
+Tools: Git, GitHub, Postman, Vercel
+
+Projects:
+
+Prepster: AI-Powered Interview Assistant. Tech: Next.js, ShadCN UI, Neon DB, Node.js. Description: A full-stack platform for interview prep with AI resume generation and quizzes.
+
+Real-Time Crypto Tracker: Tech: React.js, Chart.js, CoinGecko API. Description: Live crypto dashboard with dynamic charting and real-time data.
+
+Experience:
+
+Backend Developer at IPS Academy (Jan 2024 - Mar 2024). Spearheaded full-stack development and optimized MongoDB schemas reducing latency by 25%.
+
+Achievements:
+
+Team Lead Smart India Hackathon (Top 18).
+
+1st Runner-up Interdisciplinary Science Project Competition.
+
+Please output the full TypeScript code for this data file."
+
+Phase 2: The "Hero" & Navigation (First Impression)
+We want a sticky navigation bar and a Hero section with a typewriter effect or fading animation.
+
+👉 Copy/Paste Prompt 2:
+
+"Now, let's build the Layout and Hero section.
+
+Navbar: Create a floating, glass-morphism Navbar (blur effect) that is sticky at the top. It should have links: Home, Skills, Projects, Experience, Contact. Include a button on the right that says 'Download Resume' which links to /resume.pdf.
+
+Hero Section: Create a component components/Hero.tsx.
+
+Use Framer Motion to animate the text entering from the bottom.
+
+Display: "Hi, I'm Tejas Upadhyay."
+
+Subtitle: "I am a [Typewriter Effect Here] based in Indore, India." (The typewriter should cycle through: 'Full Stack Developer', 'Software Engineer', 'Tech Enthusiast').
+
+Add two buttons: 'View My Work' (scrolls to projects) and 'Contact Me'.
+
+Add a subtle moving background gradient or particle effect to make it look 'advanced'.
+
+Ensure it is fully responsive for mobile devices."
+
+Phase 3: The "Moving" Tech Stack (Marquee)
+You requested "moving things." An infinite scrolling marquee is excellent for showing off skills.
+
+👉 Copy/Paste Prompt 3:
+
+"Create a components/Skills.tsx section.
+
+Instead of a static list, I want an Infinite Horizontal Marquee animation (auto-scrolling left to right).
+
+Create two rows of scrolling pills.
+
+Row 1: Frontend & Tools (React, Next.js, Git, etc.).
+
+Row 2: Backend & Databases (Node, Mongo, SQL, etc.).
+
+When the user hovers over a skill pill, the animation should pause, and the pill should glow.
+
+Use the data from portfolioData.ts."
+
+Phase 4: Projects with Popups (Modals)
+This addresses your specific request for a "popup in project that give detail."
+
+👉 Copy/Paste Prompt 4:
+
+"Create a components/Projects.tsx section.
+
+Grid Layout: Display the projects (Prepster, Crypto Tracker) in a responsive grid.
+
+Card Design: Each card should show the Project Title, a brief snippet, and the tech stack tags. Add a hover effect that scales the card slightly up.
+
+The Modal (Popup): When a user clicks a project card, open a Framer Motion Modal (Popup) in the center of the screen with a backdrop blur.
+
+Modal Content:
+
+Project Title and full description.
+
+Bullet points of key features (e.g., for Prepster: 'Integrated AI-based resume generation', 'ATS optimization').
+
+Action Buttons: 'View on GitHub' and 'Live Demo' icons.
+
+A distinct 'X' button to close the modal.
+
+Ensure the modal logic handles onClick events correctly and locks the body scroll when open."
+
+Phase 5: Experience & Contact
+We will use a timeline for experience and a functional looking form for contact.
+
+👉 Copy/Paste Prompt 5:
+
+"Create the final two sections:
+
+Experience: Create a components/Experience.tsx using a vertical timeline design.
+
+Show my role at IPS Academy (Jan 2024 - Mar 2024).
+
+Include the bullet points about optimizing MongoDB and reducing latency.
+
+Animate the timeline items to fade in as the user scrolls down.
+
+Contact & Footer: Create a components/Contact.tsx.
+
+Simple form (Name, Email, Message). Note: Make the form UI only for now.
+
+Display my email: tejasupadhyay48@gmail.com and phone: +91-8378922958.
+
+Footer: Include a sleek footer with copyright and social icon links (LinkedIn, GitHub) that glow on hover.
+
+Finally, assemble all these components into the main app/page.tsx."
