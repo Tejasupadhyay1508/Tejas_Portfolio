@@ -17,7 +17,6 @@ import {
   SiVercel,
 } from "react-icons/si";
 import { Code2, Key, Layers } from "lucide-react";
-
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   react: SiReact,
   nextjs: SiNextdotjs,
@@ -48,11 +47,18 @@ function SkillPill({ name, icon }: SkillPillProps) {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }}
-      className="flex items-center gap-3 px-6 py-3 rounded-full bg-card border border-card-border whitespace-nowrap group cursor-default transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:border-primary/50"
+      whileHover={{
+        scale: 1.06,
+        y: -6,
+        rotateX: 6,
+        boxShadow: "0 20px 40px rgba(99,102,241,0.12), 0 6px 18px rgba(99,102,241,0.08)",
+      }}
+      transition={{ type: "spring", stiffness: 400, damping: 28 }}
+      style={{ perspective: 1000 }}
+      className="will-change-transform transform-gpu flex items-center gap-3 px-6 py-3 rounded-full bg-card border border-card-border whitespace-nowrap cursor-default transition-all duration-300"
       data-testid={`skill-${name.toLowerCase().replace(/\s+/g, "-")}`}
     >
-      <Icon className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+      <Icon className="w-5 h-5 text-primary" />
       <span className="text-sm font-medium text-foreground">{name}</span>
     </motion.div>
   );
@@ -114,7 +120,7 @@ export function Skills() {
             Tech Stack & Skills
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Technologies I use to bring ideas to life. Hover over any skill to pause and explore.
+            A fast-moving showcase of the tools and technologies I rely on every day—hover to pause and take a closer look.
           </p>
         </motion.div>
 

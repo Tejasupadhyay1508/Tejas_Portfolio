@@ -84,6 +84,8 @@ export function Hero() {
     }
   };
 
+  const locationLabel = String(personalInfo.location);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -140,19 +142,20 @@ export function Hero() {
 
         <motion.div
           variants={itemVariants}
-          className="text-xl md:text-2xl lg:text-3xl mb-6 text-muted-foreground"
+          className="text-2xl md:text-3xl lg:text-4xl mb-6 text-muted-foreground"
           data-testid="text-hero-typewriter"
         >
           I am a <Typewriter words={typewriterRoles} />
         </motion.div>
 
-        <motion.p
+        <motion.div
           variants={itemVariants}
-          className="text-base md:text-lg text-muted-foreground mb-4"
+          className="text-base md:text-lg text-muted-foreground mb-4 hover:text-primary transition-colors"
           data-testid="text-hero-location"
         >
-          based in {personalInfo.location}
-        </motion.p>
+          based in {locationLabel}
+          <span className="sr-only">{locationLabel}</span>
+        </motion.div>
 
         <motion.p
           variants={itemVariants}

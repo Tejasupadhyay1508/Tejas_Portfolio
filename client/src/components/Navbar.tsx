@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Download } from "lucide-react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { personalInfo } from "@/data/portfolioData";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
   { name: "Experience", href: "#experience" },
@@ -15,6 +17,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [location, setLocation] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,13 +27,54 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
+  const navigateTo = (href: string) => {
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    
+    if (href.startsWith("/")) {
+      // Route navigation
+      setLocation(href);
+    } else if (href.startsWith("#")) {
+      // Anchor link navigation
+      // If not on home page, go to home first
+      if (location !== "/") {
+        setLocation("/");
+        // Scroll to section after navigation
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      } else {
+        // Already on home page, just scroll
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
     }
   };
+
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  function getDriveFileId(url: string) {
+    const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (m && m[1]) return m[1];
+    const q = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    return q ? q[1] : null;
+  }
+
+  function getDrivePreviewUrl(url: string) {
+    const id = getDriveFileId(url);
+    if (!id) return url;
+    return `https://drive.google.com/file/d/${id}/preview`;
+  }
+
+  function getDriveDownloadUrl(url: string) {
+    const id = getDriveFileId(url);
+    if (!id) return url;
+    return `https://drive.google.com/uc?export=download&id=${id}`;
+  }
 
   return (
     <>
@@ -48,14 +92,27 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16 md:h-20">
             <motion.a
-              href="#home"
+              href="/"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection("#home");
+                navigateTo("/");
               }}
               className="text-xl font-bold text-foreground"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(59, 130, 246, 0), 0 0 20px rgba(59, 130, 246, 0)",
+                  "0 0 20px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.5)",
+                  "0 0 10px rgba(59, 130, 246, 0), 0 0 20px rgba(59, 130, 246, 0)",
+                ],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "easeInOut",
+              }}
               data-testid="link-logo"
             >
               <span className="text-primary">&lt;</span>
@@ -67,7 +124,7 @@ export function Navbar() {
               {navLinks.map((link) => (
                 <motion.button
                   key={link.name}
-                  onClick={() => scrollToSection(link.href)}
+                  onClick={() => navigateTo(link.href)}
                   className="px-4 py-2 text-muted-foreground transition-colors relative group"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -85,14 +142,13 @@ export function Navbar() {
 
             <div className="hidden md:flex items-center gap-4">
               <Button
-                asChild
+                variant="secondary"
                 className="gap-2"
-                data-testid="button-download-resume"
+                onClick={() => setIsPreviewOpen(true)}
+                data-testid="button-preview-resume"
               >
-                <a href={personalInfo.resumeLink} download>
-                  <Download className="w-4 h-4" />
-                  Download Resume
-                </a>
+                <Download className="w-4 h-4" />
+                Preview Resume
               </Button>
             </div>
 
@@ -130,7 +186,7 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => scrollToSection(link.href)}
+                  onClick={() => navigateTo(link.href)}
                   className="text-2xl font-medium text-foreground"
                   data-testid={`link-mobile-${link.name.toLowerCase()}`}
                 >
@@ -143,17 +199,56 @@ export function Navbar() {
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: navLinks.length * 0.1 }}
               >
-                <Button asChild className="gap-2">
-                  <a href={personalInfo.resumeLink} download>
-                    <Download className="w-4 h-4" />
-                    Download Resume
-                  </a>
+                <Button
+                  className="gap-2"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsPreviewOpen(true);
+                  }}
+                >
+                  <Download className="w-4 h-4" />
+                  Preview Resume
                 </Button>
               </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {isPreviewOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setIsPreviewOpen(false)}
+          />
+          <div className="relative z-10 w-[90%] max-w-4xl h-[80%] bg-background rounded-lg shadow-lg overflow-hidden">
+            <div className="flex items-center justify-between p-3 border-b border-border">
+              <h3 className="font-semibold">Resume Preview</h3>
+              <div className="flex items-center gap-2">
+                <a
+                  href={getDriveDownloadUrl(personalInfo.resumeLink)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-3 py-1 rounded bg-primary text-primary-foreground"
+                >
+                  Download
+                </a>
+                <button
+                  onClick={() => setIsPreviewOpen(false)}
+                  className="px-3 py-1 rounded bg-muted"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={getDrivePreviewUrl(personalInfo.resumeLink)}
+              className="w-full h-full"
+              title="Resume Preview"
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

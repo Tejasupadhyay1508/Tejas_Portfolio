@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { contactMessageSchema } from "@shared/schema";
+import { sendContactEmail } from "./mailer";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -18,10 +19,11 @@ export async function registerRoutes(
         });
       }
 
-      const { name, email, message } = result.data;
-      
-      await storage.saveContactMessage({ name, email, message });
-      
+      const contactMessage = result.data;
+
+      await storage.saveContactMessage(contactMessage);
+      await sendContactEmail(contactMessage);
+
       return res.status(200).json({ 
         success: true, 
         message: "Message received successfully" 

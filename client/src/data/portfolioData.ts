@@ -2,6 +2,7 @@ export interface PersonalInfo {
   name: string;
   role: string;
   tagline: string;
+  aboutMe?: string;
   resumeLink: string;
   location: string;
   email: string;
@@ -9,12 +10,14 @@ export interface PersonalInfo {
   socials: {
     linkedin: string;
     github: string;
+    x?: string;
   };
 }
 
 export interface Skill {
   name: string;
   icon: string;
+  description?: string;
 }
 
 export interface SkillCategory {
@@ -34,6 +37,8 @@ export interface Project {
   githubUrl: string;
   liveUrl: string;
   gradient: string;
+  bannerImage?: string;
+  photos: string[];
 }
 
 export interface Experience {
@@ -53,14 +58,19 @@ export interface Achievement {
 export const personalInfo: PersonalInfo = {
   name: "Tejas Upadhyay",
   role: "Full Stack Developer & Aspiring Software Engineer",
-  tagline: "Building scalable web applications with Next.js and Node.js.",
-  resumeLink: "/resume.pdf",
-  location: "Indore, India",
+  tagline: "Crafting seamless digital experiences through code and creativity.",
+  
+  resumeLink:
+    "https://drive.google.com/file/d/1mqZQjVaa2vAYsV0PV0rwR82HL_Gslpuh/view?usp=sharing",
+  location: "India",
+  // Updated contact email
+  // When users submit the contact form, messages will be sent to this address (and to server EMAIL_TO if set)
   email: "tejasupadhyay48@gmail.com",
   phone: "+91-8378922958",
   socials: {
-    linkedin: "https://linkedin.com/in/tejasupadhyay",
-    github: "https://github.com/tejasupadhyay",
+    linkedin: "https://www.linkedin.com/in/tejas-upadhyay-18013a22a/",
+    github: "https://github.com/Tejasupadhyay1508",
+    x: "https://x.com/Tejas1508",
   },
 };
 
@@ -68,33 +78,34 @@ export const typewriterRoles = [
   "Full Stack Developer",
   "Software Engineer",
   "Tech Enthusiast",
+  "backend developer"
 ];
 
 export const skills: SkillCategory = {
   frontend: [
-    { name: "React.js", icon: "react" },
-    { name: "Next.js", icon: "nextjs" },
-    { name: "HTML5", icon: "html" },
-    { name: "CSS3", icon: "css" },
-    { name: "ShadCN UI", icon: "shadcn" },
-    { name: "Tailwind", icon: "tailwind" },
+    { name: "React.js", icon: "react", description: "JavaScript library for building interactive user interfaces with reusable components" },
+    { name: "Next.js", icon: "nextjs", description: "React framework with server-side rendering and static site generation capabilities" },
+    { name: "HTML5", icon: "html", description: "Standard markup language for creating semantic web page structures" },
+    { name: "CSS3", icon: "css", description: "Styling language for designing responsive and interactive web layouts" },
+    { name: "ShadCN UI", icon: "shadcn", description: "Collection of accessible and customizable React components" },
+    { name: "Tailwind", icon: "tailwind", description: "Utility-first CSS framework for rapid UI development" },
   ],
   backend: [
-    { name: "Node.js", icon: "nodejs" },
-    { name: "Express.js", icon: "express" },
-    { name: "RESTful APIs", icon: "api" },
-    { name: "JWT", icon: "jwt" },
+    { name: "Node.js", icon: "nodejs", description: "JavaScript runtime for building scalable server-side applications" },
+    { name: "Express.js", icon: "express", description: "Minimal web application framework for routing and middleware" },
+    { name: "RESTful APIs", icon: "api", description: "Architectural style for designing networked applications using HTTP" },
+    { name: "JWT", icon: "jwt", description: "Token-based authentication method for secure API communication" },
   ],
   database: [
-    { name: "MongoDB", icon: "mongodb" },
-    { name: "PostgreSQL", icon: "postgresql" },
-    { name: "MySQL", icon: "mysql" },
+    { name: "MongoDB", icon: "mongodb", description: "NoSQL database for flexible, document-based data storage" },
+    { name: "PostgreSQL", icon: "postgresql", description: "Advanced open-source relational database with powerful features" },
+    { name: "MySQL", icon: "mysql", description: "Reliable relational database system for web applications" },
   ],
   tools: [
-    { name: "Git", icon: "git" },
-    { name: "GitHub", icon: "github" },
-    { name: "Postman", icon: "postman" },
-    { name: "Vercel", icon: "vercel" },
+    { name: "Git", icon: "git", description: "Distributed version control system for tracking code changes" },
+    { name: "GitHub", icon: "github", description: "Cloud-based platform for code collaboration and repository hosting" },
+    { name: "Postman", icon: "postman", description: "API development and testing platform with visual request builder" },
+    { name: "Vercel", icon: "vercel", description: "Cloud platform for deploying Next.js and static websites" },
   ],
 };
 
@@ -113,9 +124,15 @@ export const projects: Project[] = [
       "Personalized feedback and improvement tracking",
       "Real-time collaboration features",
     ],
-    githubUrl: "https://github.com/tejasupadhyay/prepster",
-    liveUrl: "https://prepster.vercel.app",
+    githubUrl: "https://github.com/Tejasupadhyay1508/Prepster-Ai-career-coach",
+    liveUrl: "https://prepster-five.vercel.app/",
     gradient: "from-violet-600 via-purple-600 to-indigo-600",
+    bannerImage: "/images/projects/prepster-banner.png",
+    photos: [
+      "/images/projects/prepster-1.png",
+      "/images/projects/prepster-2.png",
+      "/images/projects/prepster-3.png",
+    ],
   },
   {
     id: "crypto-tracker",
@@ -131,9 +148,15 @@ export const projects: Project[] = [
       "Portfolio tracking and management",
       "Price alerts and notifications",
     ],
-    githubUrl: "https://github.com/tejasupadhyay/crypto-tracker",
-    liveUrl: "https://crypto-tracker.vercel.app",
+    githubUrl: "https://github.com/Tejasupadhyay1508/Blocktracker",
+    liveUrl: "https://crypto-dashboard-jan-wine.vercel.app/",
     gradient: "from-emerald-600 via-teal-600 to-cyan-600",
+    bannerImage: "/images/projects/crypto-banner.png",
+    photos: [
+      "/images/projects/crypto-1.png",
+      "/images/projects/crypto-2.png",
+      "/images/projects/crypto-3.png",
+    ],
   },
 ];
 

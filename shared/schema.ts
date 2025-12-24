@@ -21,6 +21,7 @@ export const contactMessageSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Valid email is required"),
   message: z.string().min(10, "Message must be at least 10 characters"),
+  phone: z.string().optional(),
 });
 
 export type ContactMessage = z.infer<typeof contactMessageSchema>;

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Github, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { projects, type Project } from "@/data/portfolioData";
 
 interface ProjectModalProps {
@@ -59,7 +60,14 @@ function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
             className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-card border border-card-border rounded-2xl shadow-2xl"
             data-testid={`modal-content-${project.id}`}
           >
-            <div className={`h-40 md:h-48 bg-gradient-to-br ${project.gradient} relative`}>
+            <div className={`h-40 md:h-56 bg-gradient-to-br ${project.gradient} relative flex items-center justify-center overflow-hidden`}>
+              {project.bannerImage ? (
+                <img
+                  src={project.bannerImage}
+                  alt={project.title}
+                  className="w-full h-full object-scale-down"
+                />
+              ) : null}
               <div className="absolute inset-0 bg-black/20" />
               <Button
                 variant="ghost"
@@ -80,6 +88,8 @@ function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
               <p className="text-muted-foreground mb-6 leading-relaxed" data-testid="text-modal-description">
                 {project.fullDescription}
               </p>
+
+              <PhotoCarousel photos={project.photos} />
 
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
@@ -156,19 +166,28 @@ function ProjectCard({ project, onClick, index }: ProjectCardProps) {
       className="group cursor-pointer bg-card border border-card-border rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:shadow-primary/10 transition-all duration-300"
       data-testid={`card-project-${project.id}`}
     >
-      <div className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
+      <div className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden flex items-center justify-center`}>
+        {project.bannerImage ? (
+          <img
+            src={project.bannerImage}
+            alt={project.title}
+            className="w-full h-full object-scale-down"
+          />
+        ) : null}
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            initial={{ scale: 1, opacity: 0.3 }}
-            whileHover={{ scale: 1.1, opacity: 0.5 }}
-            className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"
-          >
-            <span className="text-4xl text-white font-bold">
-              {project.title.charAt(0)}
-            </span>
-          </motion.div>
-        </div>
+        {!project.bannerImage && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              initial={{ scale: 1, opacity: 0.3 }}
+              whileHover={{ scale: 1.1, opacity: 0.5 }}
+              className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"
+            >
+              <span className="text-4xl text-white font-bold">
+                {project.title.charAt(0)}
+              </span>
+            </motion.div>
+          </div>
+        )}
       </div>
 
       <div className="p-6">

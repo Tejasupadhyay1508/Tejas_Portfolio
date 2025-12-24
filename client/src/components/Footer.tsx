@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
-import { SiLinkedin, SiGithub } from "react-icons/si";
+import { SiLinkedin, SiGithub, SiX } from "react-icons/si";
 import { personalInfo } from "@/data/portfolioData";
 
 const socialLinks = [
@@ -13,6 +13,11 @@ const socialLinks = [
     name: "GitHub",
     icon: SiGithub,
     href: personalInfo.socials.github,
+  },
+  {
+    name: "X",
+    icon: SiX,
+    href: personalInfo.socials.x,
   },
 ];
 
@@ -44,19 +49,32 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <a
+            <motion.a
               href="#home"
               onClick={(e) => {
                 e.preventDefault();
                 scrollToSection("#home");
               }}
               className="text-xl font-bold text-foreground inline-block mb-4"
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(59, 130, 246, 0), 0 0 20px rgba(59, 130, 246, 0)",
+                  "0 0 20px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.5)",
+                  "0 0 10px rgba(59, 130, 246, 0), 0 0 20px rgba(59, 130, 246, 0)",
+                ],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "easeInOut",
+              }}
               data-testid="link-footer-logo"
             >
               <span className="text-primary">&lt;</span>
               Tejas
               <span className="text-primary">/&gt;</span>
-            </a>
+            </motion.a>
             <p className="text-muted-foreground text-sm max-w-xs">
               {personalInfo.tagline}
             </p>
