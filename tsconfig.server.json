@@ -6,8 +6,7 @@
     "moduleResolution": "NodeNext", // Change this from commonjs
     "target": "ES2020",
     "noEmit": false,
-    "rootDir": ".",
-    "allowImportingTsExtensions": false
+    "rootDir": "."
  
   },
   "include": ["server/**/*", "shared/**/*"],
