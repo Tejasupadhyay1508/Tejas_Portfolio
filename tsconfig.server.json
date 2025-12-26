@@ -2,11 +2,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
+    "module": "NodeNext",
     "module": "NodeNext", // Change this from commonjs
     "target": "ES2020",
     "noEmit": false,
     "rootDir": "."
+    "allowImportingTsExtensions": false
   },
-  "include": ["server/**/*"],
+  "include": ["server/**/*", "shared/**/*"],
   "exclude": ["node_modules", "dist"]
 }
