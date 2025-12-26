@@ -3,20 +3,16 @@
     "target": "ES2020",
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    
-    /* FIX 1: Change "node" to "bundler" to support modern module features */
-    "moduleResolution": "bundler", 
-    
-    /* FIX 2: Required when using 'allowImportingTsExtensions' or 'bundler' */
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-
+    /* Required for modern bundlers like Vite */
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "noEmit": true, // Fixes TS5096
+    "allowImportingTsExtensions": true, // Matches your Vite path aliases
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
@@ -24,7 +20,6 @@
       "@/*": ["./client/src/*"],
       "@shared/*": ["./shared/*"]
     }
-    // Removed "outDir" and "rootDir" because "noEmit": true means TS won't generate files
   },
   "include": ["client/**/*", "server/**/*", "shared/**/*"],
   "exclude": ["node_modules", "dist"]
